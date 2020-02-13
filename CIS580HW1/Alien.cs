@@ -2,13 +2,16 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace CIS580HW1
+namespace CIS580HW
 {
     class Alien : IEntity
     {
         private const int MARGIN = 32;
-        private const int SPRITE_WIDTH = 18;
-        private const int SPRITE_HEIGHT = 22;
+        private const int SPRITE_WIDTH = 32;
+        private const int SPRITE_HEIGHT = 32;
+        private const int TOPLEFT_X = 50;
+        private const int TOPLEFT_Y = 50;
+        private const int PADDING = 20;
 
         ShamelessGalagaClone Game;
 
@@ -27,8 +30,8 @@ namespace CIS580HW1
             {
                 Width = SPRITE_WIDTH,
                 Height = SPRITE_HEIGHT,
-                X = (SPRITE_WIDTH + 6) * x + 3,
-                Y = (SPRITE_HEIGHT + 10) * y + 5
+                X = (SPRITE_WIDTH + PADDING) * x + TOPLEFT_X,
+                Y = (SPRITE_HEIGHT + PADDING) * y + TOPLEFT_Y
             };
         }
 
@@ -55,7 +58,7 @@ namespace CIS580HW1
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Bounds, Color.Green);
+            spriteBatch.Draw(Texture, Bounds, Color.White);
         }
     }
 }

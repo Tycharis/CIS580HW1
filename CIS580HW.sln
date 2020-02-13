@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CIS580HW1", "CIS580HW1\CIS580HW1.csproj", "{CE241665-CC41-4017-B45C-56C9ECFD1F83}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CIS580HW", "CIS580HW1\CIS580HW.csproj", "{CE241665-CC41-4017-B45C-56C9ECFD1F83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

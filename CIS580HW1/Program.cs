@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CIS580HW1
+namespace CIS580HW
 {
 #if WINDOWS || LINUX
     /// <summary>

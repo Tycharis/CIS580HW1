@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace CIS580HW1
+namespace CIS580HW
 {
     class BoundingRectangle
     {

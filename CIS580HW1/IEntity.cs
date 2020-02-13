@@ -1,4 +1,4 @@
-﻿namespace CIS580HW1
+﻿namespace CIS580HW
 {
     interface IEntity
     {

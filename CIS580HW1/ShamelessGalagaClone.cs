@@ -2,7 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace CIS580HW1
+using System.Collections.Generic;
+
+namespace CIS580HW
 {
     /// <summary>
     /// This is the main type for your game.
@@ -14,9 +16,10 @@ namespace CIS580HW1
 
         Ship ship;
         Alien[,] aliens = new Alien[10, 5];
-
         KeyboardState oldState;
         KeyboardState newState;
+
+        private List<Bullet> Bullets { get; set; }
 
         public ShamelessGalagaClone()
         {
@@ -56,6 +59,8 @@ namespace CIS580HW1
                     aliens[i, j].Initialize(i, j);
                 }
             }
+
+            Bullets = new List<Bullet>();
 
             base.Initialize();
         }
@@ -104,17 +109,29 @@ namespace CIS580HW1
 
             ship.Update(gameTime);
 
-            /*if (ship.Bounds.CollidesWith()) // Ship collides with round
+            foreach (Bullet bullet in Bullets)
             {
-                ship.AcceptInput = false;
+                if (ship.Bounds.CollidesWith(bullet.Bounds)) // Ship collides with bullet
+                {
+                    ship.AcceptInput = false;
+                    bullet.hitSFX.Play();
+                    RemoveProjectile(bullet);
+                }
 
-
-            }*/
-
-            // TODO - check if round collides with any enemy
-
-            
-
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 5; j++)
+                    {
+                        if (aliens[i, j].Bounds.CollidesWith(bullet.Bounds)) // Bullet collides with alien
+                        {
+                            aliens[i, j] = null;
+                            bullet.hitSFX.Play();
+                            RemoveProjectile(bullet);
+                        }
+                    }
+                }
+            }
+         
             oldState = newState;
 
             base.Update(gameTime);
@@ -142,6 +159,19 @@ namespace CIS580HW1
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        internal void AddProjectile(IEntity parent)
+        {
+            Bullet bullet = new Bullet(this);
+            bullet.Initialize(parent);
+
+            Bullets.Add(bullet);
+        }
+        
+        internal void RemoveProjectile(Bullet bullet)
+        {
+            Bullets.Remove(bullet);
         }
     }
 }

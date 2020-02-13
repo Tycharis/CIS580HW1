@@ -3,13 +3,14 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace CIS580HW1
+namespace CIS580HW
 {
     class Ship : IEntity
     {
         private const int MARGIN = 32;
         private const int SPRITE_WIDTH = 32;
         private const int SPRITE_HEIGHT = 32;
+        private const int FIRE_DELAY_MS = 500;
 
         ShamelessGalagaClone Game;
 
@@ -18,6 +19,8 @@ namespace CIS580HW1
         Texture2D Texture;
 
         public bool AcceptInput;
+
+        float LastFire;
 
         public Ship(ShamelessGalagaClone game)
         {
@@ -53,6 +56,18 @@ namespace CIS580HW1
             {
                 // move right
                 Bounds.X += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
+            }
+
+            // Fire the cannon if space is pressed and delay is no factor
+            if (keyboardState.IsKeyDown(Keys.Space))
+            {
+                float currentTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+                if (currentTime < LastFire + FIRE_DELAY_MS)
+                {
+                    Game.AddProjectile(this);
+                    LastFire = currentTime;
+                }
             }
 
             // Stop the ship from going off-screen

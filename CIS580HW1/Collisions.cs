@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace CIS580HW1
+namespace CIS580HW
 {
     static class Collisions
     {

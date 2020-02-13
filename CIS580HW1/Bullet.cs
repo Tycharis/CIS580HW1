@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace CIS580HW1
+namespace CIS580HW
 {
     class Bullet
     {
@@ -12,51 +13,58 @@ namespace CIS580HW1
         ShamelessGalagaClone game;
 
         /// <summary>
-        /// This paddle's bounds
+        /// This bullet's bounds
         /// </summary>
         public BoundingRectangle Bounds;
 
         /// <summary>
-        /// This paddle's texture
+        /// This bullet's texture
         /// </summary>
         Texture2D texture;
 
         float DirectionalMultiplier;
 
+        public SoundEffect fireSFX;
+        public SoundEffect hitSFX;
+
         /// <summary>
-        /// Creates a paddle
+        /// Creates a bullet
         /// </summary>
-        /// <param name="game">The game this paddle belongs to</param>
+        /// <param name="game">The game this bullet belongs to</param>
         public Bullet(ShamelessGalagaClone game)
         {
             this.game = game;
         }
 
         /// <summary>
-        /// Initializes the paddle, setting its initial size 
+        /// Initializes the bullet, setting its initial size 
         /// and centering it on the firing entity.
         /// </summary>
         public void Initialize(IEntity parent)
         {
             DirectionalMultiplier = parent is Alien ? 1 : -1;
 
-            Bounds.Width = 2;
-            Bounds.Height = 8;
-            Bounds.X = parent.Bounds.X + parent.Bounds.Width / 2;
-            Bounds.Y = parent.Bounds.Y + parent.Bounds.Height * DirectionalMultiplier;
+            Bounds = new BoundingRectangle(
+                parent.Bounds.X + parent.Bounds.Width / 2,                      // X
+                parent.Bounds.Y + (parent is Alien ? parent.Bounds.Height : 0), // Y
+                2,                                                              // Width
+                8                                                               // Height
+            );
         }
 
         /// <summary>
-        /// Loads the paddle's content
+        /// Loads the bullet's content
         /// </summary>
         /// <param name="content">The ContentManager to use</param>
         public void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("pixel");
+            fireSFX = content.Load<SoundEffect>("fire");
+            hitSFX = DirectionalMultiplier == 1 ? content.Load<SoundEffect>("explode") : content.Load<SoundEffect>("hit");
         }
 
         /// <summary>
-        /// Updates the paddle
+        /// Updates the bullet
         /// </summary>
         /// <param name="gameTime">The game's GameTime</param>
         public void Update(GameTime gameTime)
@@ -67,25 +75,25 @@ namespace CIS580HW1
             // Unload the round when going off-screen
             if (Bounds.Y < 0)
             {
-                //TODO unload
+                game.RemoveProjectile(this);
             }
 
             if (Bounds.Y > game.GraphicsDevice.Viewport.Height - Bounds.Height)
             {
-                //TODO unload
+                game.RemoveProjectile(this);
             }
         }
 
         /// <summary>
-        /// Draw the paddle
+        /// Draw the bullet
         /// </summary>
         /// <param name="spriteBatch">
-        /// The SpriteBatch to draw the paddle with.  This method should 
+        /// The SpriteBatch to draw the bullet with.  This method should 
         /// be invoked between SpriteBatch.Begin() and SpriteBatch.End() calls.
         /// </param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, Bounds, Color.Green);
+            spriteBatch.Draw(texture, Bounds, Color.White);
         }
     }
 }
