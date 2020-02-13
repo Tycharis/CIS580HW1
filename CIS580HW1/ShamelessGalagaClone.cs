@@ -21,6 +21,8 @@ namespace CIS580HW
 
         private List<Bullet> Bullets { get; set; }
 
+        SpriteFont font;
+
         public ShamelessGalagaClone()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -77,6 +79,7 @@ namespace CIS580HW
             // TODO: use this.Content to load your game content here
 
             ship.LoadContent(Content);
+            font = Content.Load<SpriteFont>("arial");
 
             foreach (Alien alien in aliens)
             {
@@ -109,7 +112,7 @@ namespace CIS580HW
 
             ship.Update(gameTime);
 
-            foreach (Bullet bullet in Bullets)
+            foreach (Bullet bullet in Bullets.ToArray())
             {
                 if (ship.Bounds.CollidesWith(bullet.Bounds)) // Ship collides with bullet
                 {
@@ -122,14 +125,20 @@ namespace CIS580HW
                 {
                     for (int j = 0; j < 5; j++)
                     {
-                        if (aliens[i, j].Bounds.CollidesWith(bullet.Bounds)) // Bullet collides with alien
+                        if (aliens[i, j] != null && bullet != null)
                         {
-                            aliens[i, j] = null;
-                            bullet.hitSFX.Play();
-                            RemoveProjectile(bullet);
+                            if (aliens[i, j].Bounds.CollidesWith(bullet.Bounds)) // Bullet collides with alien
+                            {
+                                aliens[i, j] = null;
+                                bullet.hitSFX.Play();
+                                RemoveProjectile(bullet);
+                            }
                         }
+                        
                     }
                 }
+
+                bullet.Update(gameTime);
             }
          
             oldState = newState;
@@ -151,10 +160,23 @@ namespace CIS580HW
 
             ship.Draw(spriteBatch);
 
-            foreach(Alien alien in aliens)
+            foreach (Alien alien in aliens)
             {
-                alien.Draw(spriteBatch);
+                if (alien != null)
+                {
+                    alien.Draw(spriteBatch);
+                }
             }
+
+            foreach (Bullet bullet in Bullets)
+            {
+                if (bullet != null)
+                {
+                    bullet.Draw(spriteBatch);
+                }
+            }
+
+            spriteBatch.DrawString(font, "Lives: 3", new Vector2(25, spriteBatch.GraphicsDevice.Viewport.Height - 25), Color.White);
 
             spriteBatch.End();
 
@@ -165,6 +187,7 @@ namespace CIS580HW
         {
             Bullet bullet = new Bullet(this);
             bullet.Initialize(parent);
+            bullet.LoadContent(Content);
 
             Bullets.Add(bullet);
         }

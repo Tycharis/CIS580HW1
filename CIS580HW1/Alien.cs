@@ -26,13 +26,12 @@ namespace CIS580HW
 
         public void Initialize(int x, int y)
         {
-            Bounds = new BoundingRectangle(0, 0, 0, 0)
-            {
-                Width = SPRITE_WIDTH,
-                Height = SPRITE_HEIGHT,
-                X = (SPRITE_WIDTH + PADDING) * x + TOPLEFT_X,
-                Y = (SPRITE_HEIGHT + PADDING) * y + TOPLEFT_Y
-            };
+            Bounds = new BoundingRectangle(
+                (SPRITE_WIDTH + PADDING) * x + TOPLEFT_X,
+                (SPRITE_HEIGHT + PADDING) * y + TOPLEFT_Y,
+                SPRITE_WIDTH,
+                SPRITE_HEIGHT
+            );
         }
 
         public void LoadContent(ContentManager manager)

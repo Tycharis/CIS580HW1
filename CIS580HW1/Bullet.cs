@@ -46,7 +46,7 @@ namespace CIS580HW
 
             Bounds = new BoundingRectangle(
                 parent.Bounds.X + parent.Bounds.Width / 2,                      // X
-                parent.Bounds.Y + (parent is Alien ? parent.Bounds.Height : 0), // Y
+                parent.Bounds.Y + (parent is Alien ? parent.Bounds.Height + 30 : -30), // Y
                 2,                                                              // Width
                 8                                                               // Height
             );
@@ -58,7 +58,7 @@ namespace CIS580HW
         /// <param name="content">The ContentManager to use</param>
         public void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("pixel");
+            texture = content.Load<Texture2D>("bullet");
             fireSFX = content.Load<SoundEffect>("fire");
             hitSFX = DirectionalMultiplier == 1 ? content.Load<SoundEffect>("explode") : content.Load<SoundEffect>("hit");
         }
